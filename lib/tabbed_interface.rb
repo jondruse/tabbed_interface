@@ -33,7 +33,7 @@ def generate_id
   Digest::SHA1.hexdigest([Time.now, rand].join).gsub(/\D/,'').first(10)
 end
 
-class ContentBox < Struct.new(:tabs, :main_content, :content_div, :)
+class ContentBox < Struct.new(:tabs, :main_content, :content_div)
   
   def initialize(id = nil)
     self[:tabs] = []

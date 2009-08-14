@@ -4,6 +4,14 @@ TabbedInterface
 Build a tabbed interface very easily.  Requires Prototype.
 
 
+Install
+=======
+
+./script/plugin install git://github.com/jondruse/tabbed_interface.git
+
+Move ajax-loader.gif to your public images folder, or go make one at http://www.ajaxload.info/.  Whatever you do, just make sure you call it ajax-loader.gif.
+
+
 Example
 =======
 

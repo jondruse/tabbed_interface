@@ -11,7 +11,7 @@ module TabbedInterface
     content_box.tabs.each do |tab|
       
       stuff = link_to_remote(tab.title, tab.link_opts(content_box))
-      stuff << image_tag("/images/icons/ajax-indicator.gif", :style => "display:none;", :id => tab.loader_id)
+      stuff << image_tag("/images/ajax-loader.gif", :style => "display:none;", :id => tab.loader_id)
       
       tabs << content_tag(:div, stuff, :class => tab.cls_str((tab == content_box.tabs.first)), :id => "tab-#{tab.id}")
       
@@ -32,8 +32,8 @@ end
 def generate_id
   Digest::SHA1.hexdigest([Time.now, rand].join).gsub(/\D/,'').first(10)
 end
-  
-class ContentBox < Struct.new(:tabs, :main_content, :content_div)
+
+class ContentBox < Struct.new(:tabs, :main_content, :content_div, :)
   
   def initialize(id = nil)
     self[:tabs] = []

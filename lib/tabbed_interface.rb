@@ -7,23 +7,16 @@ module TabbedInterface
     yield content_box
     
     tabs = []
-    
     content_box.tabs.each do |tab|
-      
       stuff = link_to_remote(tab.title, tab.link_opts(content_box))
       stuff << image_tag("/images/ajax-loader.gif", :style => "display:none;", :id => tab.loader_id)
+      tabs << content_tag(content_box.tab_tag, stuff, :class => tab.cls_str((tab == content_box.tabs.first)), :id => "tab-#{tab.id}")
+    end
       
-      tabs << content_tag(:div, stuff, :class => tab.cls_str((tab == content_box.tabs.first)), :id => "tab-#{tab.id}")
-      
-    end #tab loop
-      
-    tab_content = content_tag(:div, tabs)
+    tab_content = content_tag(content_box.tabs_tag, tabs)
     tab_content << content_tag(:div, "&nbsp;", :class => "clear")
-    
-    concat content_tag(:div, tab_content, :class => "tab-navigation width-100-percent")
-        
-    concat content_tag(:div, content_box.main_content, :id => content_box.content_div, :class => "width-100-percent")
-    
+    concat content_tag(:div, tab_content, :class => content_box.navigation_wrapper)
+    concat content_tag(:div, content_box.main_content, :id => content_box.content_div, :class => content_box.content_wrapper)
   end
 
 end
@@ -33,12 +26,19 @@ def generate_id
   Digest::SHA1.hexdigest([Time.now, rand].join).gsub(/\D/,'').first(10)
 end
 
-class ContentBox < Struct.new(:tabs, :main_content, :content_div)
+
+class ContentBox < Struct.new(:tabs, :main_content, :content_div, :options)
   
   def initialize(id = nil)
     self[:tabs] = []
     self[:content_div] = id || "main_content_#{generate_id}"
     self[:main_content] = nil
+    self[:options] = {
+      :content_wrapper => "tabbed_content", 
+      :navigation_wrapper => "tabbed_navigation",
+      :tab_tag => :div,
+      :tabs_tag => :div
+    }
   end  
   
   def tab(title, url)
@@ -49,12 +49,21 @@ class ContentBox < Struct.new(:tabs, :main_content, :content_div)
     self[:main_content] = str
   end
   
-  def tab_ids
-    tabs.map(&:id)
-  end
-  
-  def helpers
-    ActionController::Helpers
+  # make setting and getting options dynamic!
+  # currently used options
+  # :content_wrapper
+  # :navigation_wrapper  
+  # :tab_tag
+  # :tabs_tag
+  def method_missing(method, *args, &block)
+    name = method.to_s.gsub("=","")
+    if method.to_s.include?("=")
+      self[:options][name.to_sym] = *args
+    else
+      self[:options][name.to_sym].to_s
+    end
+  rescue
+    super
   end
   
 end

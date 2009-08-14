@@ -1,0 +1,8 @@
+.clear{clear:both;height:0;overflow:hidden;}
+div.tabbed_navigation{border-bottom:1px solid #ADADAD;margin-bottom:5px;}
+div.tabbed_navigation ul{padding:0px;}
+div.tabbed_navigation ul li{list-style-image:none;list-style-position:outside;list-style-type:none;border:1px solid #ADADAD;float:left;font-size:14px;font-weight:bold;margin-left:10px;padding:7px 40px;position:relative;text-decoration:none;top:1px;}
+div.tabbed_navigation ul li.tab-active{border-bottom:1px solid #FFFFFF;}
+div.tabbed_navigation ul li img{height:28px;position:absolute;right:7px;top:2px;}
+div.tabbed_navigation ul li a{float:left;text-decoration:none;color:#333333;}
+div.tabbed_content{}

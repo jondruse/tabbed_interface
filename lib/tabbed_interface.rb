@@ -8,7 +8,7 @@ module TabbedInterface
     
     tabs = []
     content_box.tabs.each do |tab|
-      stuff = link_to_remote(tab.title, tab.link_opts(content_box))
+      stuff = link_to_remote(tab.title, tab.link_opts(content_box), tab.html_options)
       stuff << image_tag("/images/ajax-loader.gif", :style => "display:none;", :id => tab.loader_id)
       tabs << content_tag(content_box.tab_tag, stuff, :class => tab.cls_str((tab == content_box.tabs.first)), :id => "tab-#{tab.id}")
     end
@@ -36,13 +36,13 @@ class ContentBox < Struct.new(:tabs, :main_content, :content_div, :options)
     self[:options] = {
       :content_wrapper => "tabbed_content", 
       :navigation_wrapper => "tabbed_navigation",
-      :tab_tag => :div,
-      :tabs_tag => :div
+      :tab_tag => :li,
+      :tabs_tag => :ul
     }
   end  
   
-  def tab(title, url)
-    tabs << ContentTab.new(title, url)
+  def tab(title, url, options={}, html={})
+    tabs << ContentTab.new(title,url,options,html)
   end
   
   def content=(str="")
@@ -68,12 +68,14 @@ class ContentBox < Struct.new(:tabs, :main_content, :content_div, :options)
   
 end
 
-class ContentTab < Struct.new(:id, :css_classes, :title, :ajax_options)
-  def initialize(title, url)
+class ContentTab < Struct.new(:id, :css_classes, :title, :ajax_options, :html_options)
+  def initialize(title, url, options = {},html={})
+    options.reverse_merge! :url => url, :method => :get, :class => "tab-title"
     self[:id] = generate_id
     self[:css_classes] = ["tab"]
     self[:title] = title
-    self[:ajax_options] = {:url => url, :method => :get, :class => "tab-title"}
+    self[:ajax_options] = options
+    self[:html_options] = html
   end
   
   def loader_id

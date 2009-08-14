@@ -18,8 +18,16 @@ Example
 In this simple example we setup a TabbedInterface with two tabs to show a list of Users and Admins.
 
 <% tabbed_content do |box| %>
-  
-  <% box.tab("Test One", test_one_path) %>
+
+  # You don't have to include these.  They are the defaults, but this is how you would change them.
+  <% box.content_wrapper = "tabbed_content" %>
+  <% box.navigation_wrapper = "tabbed_navigation" %>
+  <% box.tab_tag = :li %>
+  <% box.tabs_tag = :ul %>
+
+  # Let's add some tabs!
+  # All you need is a title and a url. Also accepts two options hashes that get passed directly to the link_to_remote call.
+  <% box.tab("Test One", test_one_path, {:method => :post}, {:class => "different-class"}) %>
   <% box.tab("Test Two", test_two_path) %>
   
   <% box.content = capture do %>
@@ -29,27 +37,6 @@ In this simple example we setup a TabbedInterface with two tabs to show a list o
 
 <% end %>
 
-Generates something like:
-
-<div class="tab-navigation width-100-percent">
-  <div>
-    <div class="tab tab-active" id="tab-7543448161">
-      <a href="#" onclick="Element.show('tab-7543448161-loading');; new Ajax.Updater('main_content_4894402378', '/test_one', {asynchronous:true, evalScripts:true, method:'get', onComplete:function(request){Element.hide('tab-7543448161-loading'); $('tab-7543448161').className='tab tab-active'; $('tab-7543448161').siblings().each(function(e){e.className='tab tab-inactive'});}, parameters:'authenticity_token=' + encodeURIComponent('pNjc0yM1TJI9ynpBeFCdHYipBT04cdpPA8OlZTIhzXA=')}); return false;">
-        Test One
-      </a>
-        <img alt="Ajax-loader" id="tab-7543448161-loading" src="/images/ajax-loader.gif?1250287413" style="display:none;" name="tab-7543448161-loading">
-    </div>
-    <div class="tab tab-inactive" id="tab-6876288646">
-      <a href="#" onclick="Element.show('tab-6876288646-loading');; new Ajax.Updater('main_content_4894402378', '/test_two', {asynchronous:true, evalScripts:true, method:'get', onComplete:function(request){Element.hide('tab-6876288646-loading'); $('tab-6876288646').className='tab tab-active'; $('tab-6876288646').siblings().each(function(e){e.className='tab tab-inactive'});}, parameters:'authenticity_token=' + encodeURIComponent('pNjc0yM1TJI9ynpBeFCdHYipBT04cdpPA8OlZTIhzXA=')}); return false;">Test Two</a><img alt="Ajax-loader" id="tab-6876288646-loading" src="/images/ajax-loader.gif?1250287413" style="display:none;" name="tab-6876288646-loading">
-    </div>
-  </div>
-  <div class="clear">
-    &nbsp;
-  </div>
-</div>
-<div class="width-100-percent" id="main_content_4894402378">
-  Default text
-</div>
 
 
 The tabbed_content helper yields an object that has two simple methods.

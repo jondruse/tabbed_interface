@@ -1,7 +1,8 @@
 TabbedInterface
 ===============
 
-Build a tabbed interface very easily.  Requires Prototype.
+
+Build a tabbed interface very easily. Requires Prototype.
 
 see a working example at http://tab-interface.heroku.com
 
@@ -10,14 +11,14 @@ Install
 
 ./script/plugin install git://github.com/jondruse/tabbed_interface.git
 
-Move ajax-loader.gif from the resources folder to your public images folder, or go make one at http://www.ajaxload.info/.  Whatever you do, just make sure you call it ajax-loader.gif.
+Move the ajax-loader.gif from the resources folder to your public images folder, or go make one at http://www.ajaxload.info/. Whatever you do, just make sure you call it ajax-loader.gif.
 
-Some example css is also included in the resources folder.
+An example css file is also included in the resources folder.
 
 Example
 =======
 
-In this simple example we setup a TabbedInterface with two tabs to show a list of Users and Admins.
+In this simple example we setup a TabbedInterface with two tabs.
 
 <% tabbed_content do |box| %>
 
@@ -40,21 +41,23 @@ In this simple example we setup a TabbedInterface with two tabs to show a list o
 <% end %>
 
 
+The tabbed_content helper yields an object that has two main methods.
 
-The tabbed_content helper yields an object that has two simple methods.
+#tab
 
-The 'tab' method.  
+This method will setup a new tab header. Just pass the title and the url to call and update the main content area.
 
-This method will setup a new tab header.  Just pass the title and the url to call and update the main content area.
+#content
 
-the 'content' method.
-
-The only requirement is that you use capture (as shown above).  This sets the default content for the interface. Then when you click
-on a different tab, the content will be updated. You can put anything in here, but it will probably be a partial, being that the links
-use link_to_remote to update the main content area.  There are no limitations on how many tabs you can have, or how many interfaces 
-you can have on a page.
+The only requirement is that you use capture (as shown above). This sets the default content for the interface. Then when you click on a different tab, the content will be updated. You can put anything in here, but it will probably be a partial, being that the links use link_to_remote to update the main content area. There are no limitations on how any tabs you can have, or how many interfaces you can have on a page.
 
 Enjoy!
 
+
+TO-Do's
+=======
+
+1. more configurable ajax loading
+2. tests
 
 Copyright (c) 2009 Jon Druse, released under the MIT license
